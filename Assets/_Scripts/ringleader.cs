@@ -1,8 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using UnityEngine.UIElements;
 
 public class ringleader : MonoBehaviour
 {
@@ -10,7 +8,7 @@ public class ringleader : MonoBehaviour
     void Start()
     {
         EventManager eventManager = new EventManager();
-        eventManager.RandomEvent();
+        eventManager.random_event();
     }
 
     void Update()
@@ -26,19 +24,19 @@ public class EventManager
 {
     private List<string> events = new List<string>
     {
-        "LowGravity"
+        "low_gravity"
     };
 
     private Dictionary<string, (Action<List<object>>, List<object>)> eventsSpecifics = new Dictionary<string, (Action<List<object>>, List<object>)>
     {
-        { "LowGravity", (LowGravity, new List<object> { "parameter1", "parameter2" }) }
+        { "low_gravity", (low_gravity, new List<object> { "parameter1", "parameter2" }) }
     };
 
-    private static void LowGravity(List<object> parameters)
+    private static void low_gravity(List<object> parameters)
     {
         foreach (var param in parameters)
         {
-            Debug.Log($"LowGravity event executed with parameter: {param}");
+            Debug.Log($"low_gravity event executed with parameter: {param}");
         }
     }
 
@@ -55,6 +53,6 @@ public class EventManager
         var random = new System.Random();
         var randomIndex = 0;
         var randomEvent = events[randomIndex];
-        eventsSpecifics[randomEvent].Item1(eventsSpecifics[randomEvent].Item2);
+        execute_event(randomEvent);
     }
 }
