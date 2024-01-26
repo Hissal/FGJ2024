@@ -1,48 +1,60 @@
-//using System.Collections;
-//using System.Collections.Generic;
-//using UnityEngine;
-//using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System;
+using UnityEngine.UIElements;
 
-//public class ringleader : MonoBehaviour
-//{
-//     Start is called before the first frame update
-//    void Start()
-//    {
-//        EventManager eventManager = new EventManager();
-//    }
+public class ringleader : MonoBehaviour
+{
+    // Start is called before the first frame update
+    void Start()
+    {
+        EventManager eventManager = new EventManager();
+        eventManager.RandomEvent();
+    }
 
-//     Update is called once per frame
-//    void Update()
-//    {
+    void Update()
+        {
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                EventManager eventManager = new EventManager();
+                eventManager.random_event();
+        }
+    }
+}
+public class EventManager
+{
+    private List<string> events = new List<string>
+    {
+        "LowGravity"
+    };
 
-//    }
-//}
+    private Dictionary<string, (Action<List<object>>, List<object>)> eventsSpecifics = new Dictionary<string, (Action<List<object>>, List<object>)>
+    {
+        { "LowGravity", (LowGravity, new List<object> { "parameter1", "parameter2" }) }
+    };
 
-//public class EventManager
-//{
-//    private List<string> events = new List<string>
-//    {
-//        ("LowGravity")
-//    };
+    private static void LowGravity(List<object> parameters)
+    {
+        foreach (var param in parameters)
+        {
+            Debug.Log($"LowGravity event executed with parameter: {param}");
+        }
+    }
 
-//    private Dictionary<string, List<object>> eventParameters = new Dictionary<string, List<object>>();
-//    {
-//        {"LowGravity", new List<object> {"parameters"} }
-//    }
+    public void execute_event(string eventName)
+    {
+        if (events.Contains(eventName))
+        {
+            eventsSpecifics[eventName].Item1(eventsSpecifics[eventName].Item2);
+        }
+    }
 
-//    private static void LowGravity(param)
-//{
-//     Do something
-//}
-//public void ExecuteEvent(string eventName)
-//{
-//    var (name, action) = events.Find(x => x.Item1 == eventName);
-//    action(eventParameters[eventName]);
-//}
-
-//public void RandomEvent()
-//{
-//    var randomEvent = events[UnityEngine.Random.Range(0, events.Count)];
-//    randomEvent.Item2(eventParameters[randomEvent.Item1]);
-//}
-//}
+    public void random_event()
+    {
+        var random = new System.Random();
+        var randomIndex = 0;
+        var randomEvent = events[randomIndex];
+        eventsSpecifics[randomEvent].Item1(eventsSpecifics[randomEvent].Item2);
+    }
+}
