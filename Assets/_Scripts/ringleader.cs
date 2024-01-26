@@ -20,9 +20,9 @@ public class ringleader : MonoBehaviour
 
 public class EventManager
 {
-    private List<(string, Action<string>)> events = new List<(string, Action<string>)>
+    private List<(string)> events = new List<(string)>
     {
-        ("LowGravity", LowGravity),
+        ("LowGravity")
     };
 
     private Dictionary<string, List<object>> eventParameters = new Dictionary<string, List<object>>();
