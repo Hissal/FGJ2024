@@ -7,6 +7,9 @@ public class Ringleader : MonoBehaviour
     private Dictionary<string, Action> eventsSpecifics;
     public GameObject hoopPrefab;
     private System.Random random = new System.Random();
+
+    GameManager gameManager;
+
     private readonly List<string> events = new List<string>
     {
         "ring_of_fire"
@@ -14,6 +17,8 @@ public class Ringleader : MonoBehaviour
 
     void Start()
     {
+        gameManager = GameManager.Instance;
+
         eventsSpecifics = new Dictionary<string, Action>
         {
             { "ring_of_fire", RingOfFire }
@@ -35,8 +40,9 @@ public class Ringleader : MonoBehaviour
     {
         Debug.Log("Ring of Fire");
         // Get a random player
-        ringOfFirePlayer = GameManager.Instance.PlayerList[random.Next(GameManager.Instance.PlayerList.Count)];
+        ringOfFirePlayer = gameManager.PlayerList[random.Next(0, gameManager.PlayerList.Count)];
         Debug.Log(ringOfFirePlayer);
+        print("PlayerAmount" + gameManager.PlayerList.Count);
         float distanceBetweenHoops = 15f; // Distance between each hoop
         Vector3 startPosition = transform.position; // Start position for the first hoop
 
