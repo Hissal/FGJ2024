@@ -9,7 +9,6 @@ public class Ringleader : MonoBehaviour
     {
         EventManager eventManager = new EventManager();
         eventManager.RandomEvent();
-        
     }
 
     void Update()
@@ -51,6 +50,6 @@ public class EventManager
         Debug.Log("Ring of Fire");
         List<Transform> PlayerList = GameManager.Instance.PlayerList;
         var playerIndex = random.Next(PlayerList.Count);
-        
+
     }
 }
