@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
     public List<Transform> PlayerList { get; private set;} = new List<Transform>();
     public GameObject PlayerPrefab;
 
