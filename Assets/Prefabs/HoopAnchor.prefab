@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 6525333250781545007}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 40, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -64,7 +64,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -143,16 +143,24 @@ PrefabInstance:
     m_TransformParent: {fileID: 2164286755376921311}
     m_Modifications:
     - target: {fileID: 286462900626988976, guid: 2fe7bfdac7d71c584806a8ea24c8383b, type: 3}
+      propertyPath: m_MaxDistance
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 286462900626988976, guid: 2fe7bfdac7d71c584806a8ea24c8383b, type: 3}
       propertyPath: m_ConnectedBody
       value: 
       objectReference: {fileID: 3613764601660687515}
+    - target: {fileID: 3619527860532990081, guid: 2fe7bfdac7d71c584806a8ea24c8383b, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: -4883458505314413010, guid: 8b406a3403cde124c9ce0d8aa597b955, type: 3}
     - target: {fileID: 6498001690647258522, guid: 2fe7bfdac7d71c584806a8ea24c8383b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.44
       objectReference: {fileID: 0}
     - target: {fileID: 6498001690647258522, guid: 2fe7bfdac7d71c584806a8ea24c8383b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -30
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6498001690647258522, guid: 2fe7bfdac7d71c584806a8ea24c8383b, type: 3}
       propertyPath: m_LocalPosition.z

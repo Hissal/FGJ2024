@@ -4,52 +4,44 @@ using System;
 
 public class Ringleader : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        EventManager eventManager = new EventManager();
-        eventManager.RandomEvent();
-    }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            EventManager eventManager = new EventManager();
-            eventManager.RandomEvent();
-        }
-    }
-}
-
-public class EventManager
-{
+    private Dictionary<string, Action> eventsSpecifics;
+    public GameObject hoopPrefab;
     private System.Random random = new System.Random();
     private readonly List<string> events = new List<string>
     {
         "ring_of_fire"
     };
 
-    private readonly Dictionary<string, Action> eventsSpecifics;
-
-    public EventManager()
+    void Start()
     {
         eventsSpecifics = new Dictionary<string, Action>
         {
-            { "ring_of_fire", () => RingOfFire() }
+            { "ring_of_fire", RingOfFire }
         };
+        RandomEvent();
     }
 
-    public void RandomEvent()
+    void Update()
     {
-        var randomIndex = random.Next(events.Count);
-        var randomEvent = events[randomIndex];
-        eventsSpecifics[randomEvent]();
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+           RandomEvent();
+        }
     }
     private void RingOfFire()
     {
         Debug.Log("Ring of Fire");
-        List<Transform> PlayerList = GameManager.Instance.PlayerList;
-        var playerIndex = random.Next(PlayerList.Count);
+        // List<Transform> PlayerList = GameManager.Instance.PlayerList;
+        // var playerIndex = random.Next(PlayerList.Count);
 
+        // // Instantiate the hoop and anchor at the player's position
+        // var playerPosition = PlayerList[playerIndex].position;
+        var hoop = Instantiate(hoopPrefab, transform.position, Quaternion.identity);
+    }
+
+    private void RandomEvent()
+    {
+        var eventIndex = random.Next(events.Count);
+        eventsSpecifics[events[eventIndex]]();
     }
 }
