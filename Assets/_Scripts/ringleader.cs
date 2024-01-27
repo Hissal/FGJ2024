@@ -47,23 +47,15 @@ public class Ringleader : MonoBehaviour
         Vector3 startPosition = transform.position; // Start position for the first hoop
 
         // Instantiate the hoops at the start position and 15 units to the right and left
-        var hoop1 = Instantiate(hoopPrefab,
+         var hoop1 = Instantiate(hoopPrefab,
          startPosition, Quaternion.identity, transform);
-        var hoop2 = Instantiate(hoopPrefab,
-         startPosition + new Vector3(distanceBetweenHoops, 0, 0), Quaternion.identity, transform);
-        var hoop3 = Instantiate(hoopPrefab,
-         startPosition - new Vector3(distanceBetweenHoops, 0, 0), Quaternion.identity, transform);
-        hoops = new List<GameObject> { hoop1, hoop2, hoop3 };
+        hoops = new List<GameObject> { hoop1 };
 
-        // Loop through each hoop to store the player trying to score
-        foreach (var hoop in hoops)
+        // Child 1 is the hoop, 0 is chain
+        var childScript = hoop1.transform.GetComponent<HoopAnchor>();
+        if (childScript != null)
         {
-            // Child 1 is the hoop, 0 is chain
-            var childScript = hoop.transform.GetComponent<HoopAnchor>();
-            if (childScript != null)
-            {
-                childScript.StorePlayer(ringOfFirePlayer);
-            }
+            childScript.StorePlayer(ringOfFirePlayer);
         }
     }   
 
