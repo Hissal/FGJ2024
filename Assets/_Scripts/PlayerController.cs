@@ -91,7 +91,8 @@ public class PlayerController : MonoBehaviour, IHittable
         foreach (PunchScript script in punchScripts)
         {
             script.SwingArm(transform.forward, punchForce, punchForceMultiplier);
-            rb.AddForce(-transform.forward * punchForce * 3, ForceMode.VelocityChange);
+            rb.AddForce(-transform.forward * punchForce * 2, ForceMode.VelocityChange);
+            rb.AddForce(Vector3.up * -punchForce * 2, ForceMode.Impulse);
         }
 
         IEnumerator PunchCooldown()

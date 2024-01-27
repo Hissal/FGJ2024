@@ -1202,8 +1202,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movementSpeed: 15
   jumpStrength: 100
-  punchForce: 3
-  punchForceMultiplier: 10
+  punchForce: 5
+  punchForceMultiplier: 15
   punchStunDuration: 0.2
   punchCooldown: 0.25
   rotationSpeed: 0.75
