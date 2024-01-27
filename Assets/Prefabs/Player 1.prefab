@@ -601,7 +601,7 @@ MonoBehaviour:
   col: {fileID: 2220647230907635324}
   groundLayer:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 64
 --- !u!136 &2220647230907635324
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1193,11 +1193,12 @@ MonoBehaviour:
   punchForce: 10
   punchStunDuration: 0.2
   rotationSpeed: 0.5
+  recenterSpeed: 0
   punchScript: {fileID: 0}
   distToGround: 1.2
   groundLayer:
     serializedVersion: 2
-    m_Bits: 1024
+    m_Bits: 64
 --- !u!114 &1900972312090560639
 MonoBehaviour:
   m_ObjectHideFlags: 0
