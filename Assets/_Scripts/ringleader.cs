@@ -9,6 +9,7 @@ public class Ringleader : MonoBehaviour
     {
         EventManager eventManager = new EventManager();
         eventManager.RandomEvent();
+        
     }
 
     void Update()
@@ -23,25 +24,33 @@ public class Ringleader : MonoBehaviour
 
 public class EventManager
 {
+    private System.Random random = new System.Random();
     private readonly List<string> events = new List<string>
     {
         "ring_of_fire"
     };
 
-    private readonly Dictionary<string, Action> eventsSpecifics = new Dictionary<string, Action>
+    private readonly Dictionary<string, Action> eventsSpecifics;
+
+    public EventManager()
     {
-        { "ring_of_fire", RingOfFire }
-    };
+        eventsSpecifics = new Dictionary<string, Action>
+        {
+            { "ring_of_fire", () => RingOfFire() }
+        };
+    }
 
     public void RandomEvent()
     {
-        var random = new System.Random();
         var randomIndex = random.Next(events.Count);
         var randomEvent = events[randomIndex];
         eventsSpecifics[randomEvent]();
     }
-    private static void RingOfFire()
+    private void RingOfFire()
     {
         Debug.Log("Ring of Fire");
+        List<Transform> PlayerList = GameManager.Instance.PlayerList;
+        var playerIndex = random.Next(PlayerList.Count);
+        
     }
 }
