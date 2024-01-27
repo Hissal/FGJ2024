@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.GraphicsBuffer;
 
 public class PlayerController : MonoBehaviour, IHittable
 {
@@ -11,6 +12,7 @@ public class PlayerController : MonoBehaviour, IHittable
     [SerializeField] float jumpStrength;
     [SerializeField] float punchForce;
     [SerializeField] float punchStunDuration;
+    [SerializeField] float rotationSpeed;
 
     InputActionAsset inputAsset;
     InputActionMap player;
@@ -23,18 +25,14 @@ public class PlayerController : MonoBehaviour, IHittable
     Coroutine stunRoutine = null;
     bool stunned = false;
 
-    float distToGround;
+    [SerializeField] float distToGround;
+    [SerializeField] LayerMask groundLayer;
 
 
     private void Awake()
     {
         inputAsset = GetComponent<PlayerInput>().actions;
         player = inputAsset.FindActionMap("PlayerControls");
-    }
-
-    void Start()
-    {
-        distToGround = GetComponent<CapsuleCollider>().bounds.extents.y;
     }
 
     void Jump(InputAction.CallbackContext ctx)
@@ -54,9 +52,15 @@ public class PlayerController : MonoBehaviour, IHittable
     {
         moveDir = move.ReadValue<float>();
 
-        if (moveDir < 0) transform.rotation = new Quaternion(0, 180, 0, 1);
-        else if (moveDir > 0) transform.rotation = new Quaternion(0, 0, 0, 1);
-        else rb.velocity = new Vector3(rb.velocity.x * 0.9f, rb.velocity.y, 0);
+        if (moveDir == 0) rb.velocity = new Vector3(rb.velocity.x * 0.9f, rb.velocity.y, 0);
+        else if (IsGrounded())
+        {
+            Vector3 targetDirection = (Vector3.right * moveDir).normalized;
+            Vector3 newDirection = Vector3.RotateTowards(transform.forward, targetDirection, rotationSpeed, 0.0f);
+            //transform.rotation = Quaternion.LookRotation(newDirection);
+
+            rb.MoveRotation(Quaternion.LookRotation(newDirection));
+        }
 
         if (Mathf.Abs(rb.velocity.x) >= movementSpeed) rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 0);
         else rb.AddForce(new Vector3(moveDir * movementSpeed * 2, 0, 0));
@@ -114,8 +118,15 @@ public class PlayerController : MonoBehaviour, IHittable
 
     bool IsGrounded()
     {
-        return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.1f);
+        return Physics.Raycast(transform.position, -Vector3.up, distToGround, groundLayer);
     }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(transform.position, new Vector3(transform.position.x, transform.position.y - distToGround, transform.position.z));
+    }
+
     private void OnEnable()
     {
         rb = GetComponent<Rigidbody>();
