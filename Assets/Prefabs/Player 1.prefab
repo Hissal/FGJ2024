@@ -1188,7 +1188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5dea2a65a9d227145897d8336c20eee1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movementSpeed: 30
+  movementSpeed: 15
   jumpStrength: 100
   punchForce: 10
   punchStunDuration: 0.2

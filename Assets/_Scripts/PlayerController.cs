@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour, IHittable
     [SerializeField] float punchForce;
     [SerializeField] float punchStunDuration;
     [SerializeField] float rotationSpeed;
+    [SerializeField] float recenterSpeed;
 
     InputActionAsset inputAsset;
     InputActionMap player;
@@ -63,7 +64,7 @@ public class PlayerController : MonoBehaviour, IHittable
         }
 
         if (Mathf.Abs(rb.velocity.x) >= movementSpeed) rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, 0);
-        else rb.AddForce(new Vector3(moveDir * movementSpeed * 2, 0, 0));
+        else rb.AddForce(new Vector3(moveDir * movementSpeed * 5, 0, 0));
     }
 
     public void Hit(Vector3 dir, float force)
