@@ -1,21 +1,20 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.AnimatedValues;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.GraphicsBuffer;
 
 public class PlayerController : MonoBehaviour, IHittable
 {
     Rigidbody rb;
 
-    [SerializeField] float movementSpeed;
-    [SerializeField] float jumpStrength;
-    [SerializeField] float punchForce;
-    [SerializeField] float punchForceMultiplier;
-    [SerializeField] float punchStunDuration;
-    [SerializeField] float punchCooldown;
-    [SerializeField] float rotationSpeed;
+    [SerializeField] float movementSpeed = 15f;
+    [SerializeField] float jumpStrength = 100f;
+    [SerializeField] float punchForce = 5f;
+    [SerializeField] float punchForceMultiplier = 15f;
+    [SerializeField] float punchStunDuration = 0.15f;
+    [SerializeField] float punchCooldown = 0.25f;
+    [SerializeField] float rotationSpeed = 0.6f;
+    [SerializeField] float maxVelocity = 100;
 
     InputActionAsset inputAsset;
     InputActionMap player;
@@ -27,11 +26,14 @@ public class PlayerController : MonoBehaviour, IHittable
     bool stunned = false;
     bool canPunch = true;
 
+    bool doubleJump = true;
+
     [SerializeField] float distToGround;
     [SerializeField] LayerMask groundLayer;
 
     [SerializeField] List<PunchScript> punchScripts;
 
+    [SerializeField] GameObject hat;
 
     private void Awake()
     {
@@ -39,10 +41,27 @@ public class PlayerController : MonoBehaviour, IHittable
         player = inputAsset.FindActionMap("PlayerControls");
     }
 
+    void Start()
+    {
+        SkinnedMeshRenderer rend = hat.GetComponent<SkinnedMeshRenderer>();
+        //rend.material.color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+        rend.material.color = UnityEngine.Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+    }
+
     void Jump(InputAction.CallbackContext ctx)
     {
-        if (stunned || !IsGrounded()) return;
-        rb.AddForce(new Vector3(0, jumpStrength, 0), ForceMode.Impulse);
+        if (stunned) return;
+
+        if (IsGrounded())
+        {
+            rb.AddForce(new Vector3(0, jumpStrength, 0), ForceMode.Impulse);
+        }
+        else if (doubleJump)
+        {
+            doubleJump = false;
+            rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
+            rb.AddForce(new Vector3(0, jumpStrength, 0), ForceMode.Impulse);
+        }
     }
 
     private void FixedUpdate()
@@ -54,6 +73,16 @@ public class PlayerController : MonoBehaviour, IHittable
         }
         
         Move();
+    }
+
+    void Update()
+    {
+        if (rb.velocity.magnitude >= maxVelocity) rb.velocity = rb.velocity.normalized * maxVelocity;
+
+        if (IsGrounded())
+        {
+            doubleJump = true;
+        }
     }
 
     private void Move()

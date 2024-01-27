@@ -92,6 +92,10 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 8417361359673230750, guid: 6bc1c50312b94f14dafd612880912cbb, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: f8b0221e6f9baec4f8e95e12a7773edb, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1207,6 +1211,7 @@ MonoBehaviour:
   punchStunDuration: 0.2
   punchCooldown: 0.25
   rotationSpeed: 0.75
+  maxVelocity: 100
   distToGround: 1.2
   groundLayer:
     serializedVersion: 2
@@ -1214,6 +1219,7 @@ MonoBehaviour:
   punchScripts:
   - {fileID: 1424449945552025083}
   - {fileID: 401426967651933334}
+  hat: {fileID: 8848999803155847756}
 --- !u!65 &513762258614567576
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1292,6 +1298,11 @@ MonoBehaviour:
   m_DefaultActionMap: PlayerControls
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!1 &8848999803155847756 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -8391222552659086748, guid: 6bc1c50312b94f14dafd612880912cbb, type: 3}
+  m_PrefabInstance: {fileID: 8160968805604468776}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &9094330557968176476 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -8109829993498575500, guid: 6bc1c50312b94f14dafd612880912cbb, type: 3}
