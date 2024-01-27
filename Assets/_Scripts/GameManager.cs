@@ -9,7 +9,18 @@ public class GameManager : MonoBehaviour
 
     // Add a dictionary to keep track of players' scores
     private Dictionary<Transform, int> playerScores = new Dictionary<Transform, int>();
-
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     void AddPlayer()
     {
         Transform newPlayer = Instantiate(PlayerPrefab, transform.position, Quaternion.identity).transform;
@@ -29,11 +40,13 @@ public class GameManager : MonoBehaviour
     // Add a method to increase a player's score
     public void IncreasePlayerScore(Transform player, int amount)
     {
-        if (playerScores.ContainsKey(player))
-        {
-            playerScores[player] += amount;
-        }
-        Debug.Log("Player " + player + " score: " + playerScores[player]);
+        if (!playerScores.ContainsKey(player))
+            {
+                // If the player doesn't exist in the dictionary, add them with a score of 0
+                playerScores[player] = 0;
+            }
+        playerScores[player] += amount;
+        Debug.Log(GetPlayerScore(player));
     }
 
     // Add a method to get a player's score
