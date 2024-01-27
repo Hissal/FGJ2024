@@ -25,7 +25,9 @@ public class Ringleader : MonoBehaviour
     {
 
     }
-    private void RingOfFire()
+
+    private List<GameObject> hoops;
+    public void RingOfFire()
     {
         Debug.Log("Ring of Fire");
         // List<Transform> PlayerList = GameManager.Instance.PlayerList;
@@ -38,9 +40,13 @@ public class Ringleader : MonoBehaviour
         Vector3 startPosition = transform.position; // Start position for the first hoop
 
         // Instantiate the hoops at the start position and 15 units to the right and left
-        Instantiate(hoopPrefab, startPosition, Quaternion.identity);
-        Instantiate(hoopPrefab, startPosition + new Vector3(distanceBetweenHoops, 0, 0), Quaternion.identity);
-        Instantiate(hoopPrefab, startPosition - new Vector3(distanceBetweenHoops, 0, 0), Quaternion.identity);
+        var hoop1 = Instantiate(hoopPrefab,
+         startPosition, Quaternion.identity, transform);
+        var hoop2 = Instantiate(hoopPrefab,
+         startPosition + new Vector3(distanceBetweenHoops, 0, 0), Quaternion.identity, transform);
+        var hoop3 = Instantiate(hoopPrefab,
+         startPosition - new Vector3(distanceBetweenHoops, 0, 0), Quaternion.identity, transform);
+        hoops = new List<GameObject> { hoop1, hoop2, hoop3 };
     }
 
     private void RandomEvent()
@@ -48,4 +54,52 @@ public class Ringleader : MonoBehaviour
         var eventIndex = random.Next(events.Count);
         eventsSpecifics[events[eventIndex]]();
     }
+    public void DetachHoops()
+    {
+    foreach (GameObject hoop in hoops)
+    {
+        // Get the Rigidbody component
+        Rigidbody rb = hoop.GetComponent<Rigidbody>();
+
+        // If the Rigidbody component exists
+        if (rb != null)
+        {
+            // Enable gravity
+            rb.useGravity = true;
+
+            // Disable kinematic
+            rb.isKinematic = false;
+        }
+
+        // Create a queue to hold the GameObject and all its children
+        Queue<Transform> queue = new Queue<Transform>();
+        queue.Enqueue(hoop.transform);
+
+        // While there are still GameObjects in the queue
+        while (queue.Count > 0)
+        {
+            // Dequeue a GameObject
+            Transform current = queue.Dequeue();
+
+            // Get the Rigidbody component
+            Rigidbody currentRb = current.GetComponent<Rigidbody>();
+
+            // If the Rigidbody component exists
+            if (currentRb != null)
+            {
+                // Enable gravity
+                currentRb.useGravity = true;
+
+                // Disable kinematic
+                currentRb.isKinematic = false;
+            }
+
+            // Enqueue all children of the current GameObject
+            foreach (Transform child in current)
+            {
+                queue.Enqueue(child);
+            }
+        }
+    }
+}
 }

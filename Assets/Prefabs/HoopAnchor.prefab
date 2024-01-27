@@ -13,7 +13,8 @@ GameObject:
   - component: {fileID: 7681835383151580954}
   - component: {fileID: 5487125448618486007}
   - component: {fileID: 3613764601660687515}
-  - component: {fileID: 8184919441989409115}
+  - component: {fileID: 1027655583359167745}
+  - component: {fileID: 6894898964716407804}
   m_Layer: 0
   m_Name: HoopAnchor
   m_TagString: Untagged
@@ -136,39 +137,27 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!59 &8184919441989409115
-HingeJoint:
+--- !u!114 &1027655583359167745
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6525333250781545007}
-  m_ConnectedBody: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f948a1e7d4f2e8ffac5cd75c35aa1f3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!138 &6894898964716407804
+FixedJoint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6525333250781545007}
+  m_ConnectedBody: {fileID: 8219288327844421427}
   m_ConnectedArticulationBody: {fileID: 0}
-  m_Anchor: {x: 0, y: 0.5, z: 0}
-  m_Axis: {x: 1, y: 0, z: 0}
-  m_AutoConfigureConnectedAnchor: 1
-  m_ConnectedAnchor: {x: 0, y: 0.5, z: 0}
-  serializedVersion: 2
-  m_UseSpring: 0
-  m_Spring:
-    spring: 0
-    damper: 0
-    targetPosition: 0
-  m_UseMotor: 0
-  m_Motor:
-    targetVelocity: 0
-    force: 0
-    freeSpin: 0
-  m_UseLimits: 0
-  m_ExtendedLimits: 0
-  m_UseAcceleration: 0
-  m_Limits:
-    min: 0
-    max: 0
-    bounciness: 0
-    bounceMinVelocity: 0.2
-    contactDistance: 0
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_EnableCollision: 0
@@ -325,7 +314,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1226938211815580072, guid: c3e1d2cee46f7d3f6b8dd5f028580d1c, type: 3}
       propertyPath: m_IsKinematic
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2310790034429019437, guid: c3e1d2cee46f7d3f6b8dd5f028580d1c, type: 3}
       propertyPath: m_Mass
@@ -1032,6 +1021,11 @@ Rigidbody:
 --- !u!54 &7294994941326510415 stripped
 Rigidbody:
   m_CorrespondingSourceObject: {fileID: 444508213933078484, guid: c3e1d2cee46f7d3f6b8dd5f028580d1c, type: 3}
+  m_PrefabInstance: {fileID: 7139950206211112603}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &8219288327844421427 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 1226938211815580072, guid: c3e1d2cee46f7d3f6b8dd5f028580d1c, type: 3}
   m_PrefabInstance: {fileID: 7139950206211112603}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &8660388125386949782 stripped

@@ -14,7 +14,7 @@ public class Hoop : MonoBehaviour
             float randomX = (float)random.NextDouble() * 2 - 1; // Random float between -1 and 1
             float randomZ = (float)random.NextDouble() * 2 - 1; // Random float between -1 and 1
             Vector3 forceDirection = new Vector3(randomX, 0, randomZ);
-            float forceMagnitude = 1800f;
+            float forceMagnitude = 1500f;
             rb.AddForce(forceDirection * forceMagnitude);
             Debug.Log("Added force to the hoop!");
         }
@@ -31,6 +31,11 @@ public class Hoop : MonoBehaviour
         {
             Debug.Log("Player has passed through the hoop!");
             // Add any additional logic here for when the player passes through the hoop
+            HoopAnchor hoopAnchor = transform.parent.GetComponent<HoopAnchor>();
+            if (hoopAnchor != null)
+            {
+                hoopAnchor.DetachHoop();
+            }
         }
     }
 }
