@@ -21,10 +21,16 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
+
+    void Start()
+    {
+        AddPlayer();
+    }
     void AddPlayer()
     {
         Transform newPlayer = Instantiate(PlayerPrefab, transform.position, Quaternion.identity).transform;
         PlayerList.Add(newPlayer);
+        Debug.Log("Added player!");
 
         // Initialize the new player's score to 0
         playerScores[newPlayer] = 0;

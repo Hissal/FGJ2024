@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class HoopAnchor : MonoBehaviour
 {
+    private Transform tryingPlayer;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,6 +16,16 @@ public class HoopAnchor : MonoBehaviour
     {
         
     }
+    public void StorePlayer(Transform player)
+    {
+        Debug.Log("Storing player!");
+        tryingPlayer = player;
+    }
+    public Transform GetTryingPlayer()
+    {
+        return tryingPlayer;
+    }
+
     public void DetachHoop()
     {
         // Get a reference to the RingLeader script in the parent object
