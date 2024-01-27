@@ -42,9 +42,7 @@ public class Ringleader : MonoBehaviour
         // Get a random player
         ringOfFirePlayer = gameManager.PlayerList[random.Next(0, gameManager.PlayerList.Count)];
         print("PlayerAmount" + gameManager.PlayerList.Count);
-        float distanceBetweenHoops = 15f; // Distance between each hoop
         Vector3 startPosition = transform.position; // Start position for the first hoop
-
         // Instantiate the hoops at the start position and 15 units to the right and left
          var hoop1 = Instantiate(hoopPrefab,
          startPosition, Quaternion.identity, transform);

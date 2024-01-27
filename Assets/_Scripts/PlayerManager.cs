@@ -22,7 +22,6 @@ public class PlayerManager : MonoBehaviour
         GameManager.Instance.AddPlayer(player.transform);
         player.transform.position = spawnPoints[players.Count - 1].position;
     }
-
     private void OnEnable()
     {
         playerInputManager.onPlayerJoined += AddPlayer;
@@ -32,5 +31,4 @@ public class PlayerManager : MonoBehaviour
     {
         playerInputManager.onPlayerJoined -= AddPlayer;
     }
-
 }

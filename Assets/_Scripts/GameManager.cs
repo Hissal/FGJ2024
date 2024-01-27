@@ -22,9 +22,18 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    // Add a new dictionary to store the color for each player
+    private Dictionary<Transform, Color> playerColors = new Dictionary<Transform, Color>();
+
+    // Add a method to set the color for a player
+    public void SetPlayerColor(Transform player, Color color)
+    {
+        playerColors[player] = color;
+    }
+    
     void Start()
     {
-
+        
     }
     public void AddPlayer(Transform newPlayer)
     {
@@ -46,22 +55,30 @@ public class GameManager : MonoBehaviour
     public void IncreasePlayerScore(Transform player, int amount)
     {
         if (!playerScores.ContainsKey(player))
-            {
-                // If the player doesn't exist in the dictionary, add them with a score of 0
-                playerScores[player] = 0;
-            }
+        {
+            // If the player doesn't exist in the dictionary, add them with a score of 0
+            playerScores[player] = 0;
+        }
         playerScores[player] += amount;
     }
 
-    // Add a method to get a player's score
-    public int GetPlayerScore(Transform player)
+    // Modify the GetPlayerScore method to also return the player's color
+    public (int score, Color color) GetPlayerInfo(Transform player)
     {
+        int score = 0;
+        Color color = Color.white; // Default color
+
         if (playerScores.ContainsKey(player))
         {
-            return playerScores[player];
+            score = playerScores[player];
         }
 
-        return 0;
+        if (playerColors.ContainsKey(player))
+        {
+            color = playerColors[player];
+        }
+
+        return (score, color);
     }
 
     //TODO SINGLETON

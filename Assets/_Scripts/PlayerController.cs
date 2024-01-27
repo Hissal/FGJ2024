@@ -46,6 +46,7 @@ public class PlayerController : MonoBehaviour, IHittable
         SkinnedMeshRenderer rend = hat.GetComponent<SkinnedMeshRenderer>();
         //rend.material.color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
         rend.material.color = UnityEngine.Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
+        GameManager.Instance.SetPlayerColor(transform, rend.material.color);
     }
 
     void Jump(InputAction.CallbackContext ctx)
