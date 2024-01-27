@@ -23,10 +23,7 @@ public class Ringleader : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-           RandomEvent();
-        }
+
     }
     private void RingOfFire()
     {
@@ -35,8 +32,15 @@ public class Ringleader : MonoBehaviour
         // var playerIndex = random.Next(PlayerList.Count);
 
         // // Instantiate the hoop and anchor at the player's position
-        // var playerPosition = PlayerList[playerIndex].position;
-        var hoop = Instantiate(hoopPrefab, transform.position, Quaternion.identity);
+        // var playerPosition = PlayerList[playerIndex].position
+
+        float distanceBetweenHoops = 15f; // Distance between each hoop
+        Vector3 startPosition = transform.position; // Start position for the first hoop
+
+        // Instantiate the hoops at the start position and 15 units to the right and left
+        Instantiate(hoopPrefab, startPosition, Quaternion.identity);
+        Instantiate(hoopPrefab, startPosition + new Vector3(distanceBetweenHoops, 0, 0), Quaternion.identity);
+        Instantiate(hoopPrefab, startPosition - new Vector3(distanceBetweenHoops, 0, 0), Quaternion.identity);
     }
 
     private void RandomEvent()
