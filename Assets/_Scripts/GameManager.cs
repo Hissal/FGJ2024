@@ -24,11 +24,10 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
-        AddPlayer();
+
     }
-    void AddPlayer()
+    public void AddPlayer(Transform newPlayer)
     {
-        Transform newPlayer = Instantiate(PlayerPrefab, transform.position, Quaternion.identity).transform;
         PlayerList.Add(newPlayer);
         Debug.Log("Added player!");
 
