@@ -2,57 +2,46 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-public class ringleader : MonoBehaviour
+public class Ringleader : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
     {
         EventManager eventManager = new EventManager();
-        eventManager.random_event();
+        eventManager.RandomEvent();
     }
 
     void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                EventManager eventManager = new EventManager();
-                eventManager.random_event();
+            EventManager eventManager = new EventManager();
+            eventManager.RandomEvent();
         }
     }
 }
+
 public class EventManager
 {
-    private List<string> events = new List<string>
+    private readonly List<string> events = new List<string>
     {
-        "low_gravity"
+        "ring_of_fire"
     };
 
-    private Dictionary<string, (Action<List<object>>, List<object>)> eventsSpecifics = new Dictionary<string, (Action<List<object>>, List<object>)>
+    private readonly Dictionary<string, Action> eventsSpecifics = new Dictionary<string, Action>
     {
-        { "low_gravity", (low_gravity, new List<object> { "parameter1", "parameter2" }) }
+        { "ring_of_fire", RingOfFire }
     };
 
-    private static void low_gravity(List<object> parameters)
-    {
-        foreach (var param in parameters)
-        {
-            Debug.Log($"low_gravity event executed with parameter: {param}");
-        }
-    }
-
-    public void execute_event(string eventName)
-    {
-        if (events.Contains(eventName))
-        {
-            eventsSpecifics[eventName].Item1(eventsSpecifics[eventName].Item2);
-        }
-    }
-
-    public void random_event()
+    public void RandomEvent()
     {
         var random = new System.Random();
-        var randomIndex = 0;
+        var randomIndex = random.Next(events.Count);
         var randomEvent = events[randomIndex];
-        execute_event(randomEvent);
+        eventsSpecifics[randomEvent]();
+    }
+    private static void RingOfFire()
+    {
+        Debug.Log("Ring of Fire");
     }
 }
