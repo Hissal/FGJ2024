@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.AnimatedValues;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using static UnityEngine.GraphicsBuffer;
@@ -11,23 +12,25 @@ public class PlayerController : MonoBehaviour, IHittable
     [SerializeField] float movementSpeed;
     [SerializeField] float jumpStrength;
     [SerializeField] float punchForce;
+    [SerializeField] float punchForceMultiplier;
     [SerializeField] float punchStunDuration;
+    [SerializeField] float punchCooldown;
     [SerializeField] float rotationSpeed;
-    [SerializeField] float recenterSpeed;
 
     InputActionAsset inputAsset;
     InputActionMap player;
     InputAction move;
 
-    [SerializeField] PunchScript punchScript;
-
     float moveDir = 0;
 
     Coroutine stunRoutine = null;
     bool stunned = false;
+    bool canPunch = true;
 
     [SerializeField] float distToGround;
     [SerializeField] LayerMask groundLayer;
+
+    [SerializeField] List<PunchScript> punchScripts;
 
 
     private void Awake()
@@ -44,8 +47,12 @@ public class PlayerController : MonoBehaviour, IHittable
 
     private void FixedUpdate()
     {
-        if (stunned) return;
-
+        if (stunned) 
+        {
+            rb.velocity = new Vector3(rb.velocity.x * 0.95f, rb.velocity.y, 0);
+            return;
+        }
+        
         Move();
     }
 
@@ -67,40 +74,32 @@ public class PlayerController : MonoBehaviour, IHittable
         else rb.AddForce(new Vector3(moveDir * movementSpeed * 5, 0, 0));
     }
 
-    public void Hit(Vector3 dir, float force)
+    public void Hit(Vector3 velocityOfHit, float forceMultiplier)
     {
         rb.velocity = rb.velocity * 0.5f;
-        rb.AddForce(force * dir, ForceMode.Impulse);
+        rb.AddForce(velocityOfHit * forceMultiplier, ForceMode.Impulse);
         Stun(punchStunDuration);
         print("Hit");
     }
 
     void Punch(InputAction.CallbackContext ctx)
     {
-        StartCoroutine(PunchRoutine());
+        if (stunned || !canPunch) return;
 
-        IEnumerator PunchRoutine()
+        StartCoroutine(PunchCooldown());
+
+        foreach (PunchScript script in punchScripts)
         {
-            punchScript.gameObject.SetActive(true);
+            script.SwingArm(transform.forward, punchForce, punchForceMultiplier);
+            rb.AddForce(-transform.forward * punchForce * 2, ForceMode.VelocityChange);
+            rb.AddForce(Vector3.up * -punchForce * 2, ForceMode.Impulse);
+        }
 
-            yield return new WaitForFixedUpdate();
-
-            foreach (Transform t in punchScript.GetPunched())
-            {
-                IHittable hittable = t.GetComponent<IHittable>();
-                if (hittable != null)
-                {
-                    print(hittable);
-                    Vector3 dir = (t.position - transform.position).normalized;
-                    hittable.Hit(dir, punchForce);
-                }
-            }
-
-            yield return new WaitForFixedUpdate();
-
-            punchScript.ClearPunched();
-            punchScript.gameObject.SetActive(false);
-            yield return null;
+        IEnumerator PunchCooldown()
+        {
+            canPunch = false;
+            yield return new WaitForSeconds(punchCooldown);
+            canPunch = true;
         }
     }
 

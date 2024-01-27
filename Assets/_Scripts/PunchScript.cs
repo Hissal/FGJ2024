@@ -4,23 +4,50 @@ using UnityEngine;
 
 public class PunchScript : MonoBehaviour
 {
-    List<Transform> collidingWith = new List<Transform>();
+    Rigidbody rb;
+    float pForce;
 
-    private void OnTriggerStay(Collider other)
+    bool swinging = false;
+
+    [SerializeField] Rigidbody armRb;
+
+    private void Start()
     {
-        if (other.gameObject == this.gameObject) return;
-        if (other == null) return;
-
-        collidingWith.Add(other.transform);
+        rb = GetComponent<Rigidbody>();
     }
 
-    public List<Transform> GetPunched()
+    public void SwingArm(Vector3 dir, float swingForce, float punchForceMultiplier)
     {
-        return collidingWith;
+        pForce = punchForceMultiplier;
+        StartCoroutine(SwingRoutine());
+
+        IEnumerator SwingRoutine()
+        {
+            swinging = true;
+            rb.AddForce(dir * swingForce, ForceMode.VelocityChange);
+            rb.AddForce(Vector3.up * swingForce * 0.5f, ForceMode.VelocityChange);
+            //armRb.AddForce(dir * swingForce, ForceMode.VelocityChange);
+
+            for (int i = 0; i < 5; i++)
+            {
+                rb.AddForce(dir * swingForce, ForceMode.Impulse);
+                rb.AddForce(Vector3.up * swingForce * 0.5f, ForceMode.Impulse);
+                //armRb.AddForce(dir * swingForce, ForceMode.Impulse);
+                yield return new WaitForFixedUpdate();
+            } 
+            yield return new WaitForSeconds(0.1f);
+            swinging = false;
+        }
     }
 
-    public void ClearPunched()
+    private void OnCollisionEnter(Collision collision)
     {
-        collidingWith.Clear();
+        if (swinging == false) return;
+
+        IHittable hittable = collision.transform.root.GetComponentInChildren<IHittable>();
+        if (hittable == null) return;
+        if (hittable == transform.root.GetComponentInChildren<IHittable>()) return;
+        
+        hittable.Hit(rb.velocity, pForce);
     }
 }

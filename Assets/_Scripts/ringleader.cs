@@ -23,7 +23,10 @@ public class Ringleader : MonoBehaviour
 
     void Update()
     {
-
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            RandomEvent();
+        }
     }
 
     private List<GameObject> hoops;
