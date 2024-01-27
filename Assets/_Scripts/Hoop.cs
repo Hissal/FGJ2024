@@ -30,7 +30,9 @@ public class Hoop : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             Debug.Log("Player has passed through the hoop!");
-            // Add any additional logic here for when the player passes through the hoop
+            // Increase the score of the player who passed through the hoop
+            GameManager.Instance.IncreasePlayerScore(other.transform, 1);
+            // Detach all hoops
             HoopAnchor hoopAnchor = transform.parent.GetComponent<HoopAnchor>();
             if (hoopAnchor != null)
             {
