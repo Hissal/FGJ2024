@@ -24,8 +24,8 @@ public class PunchScript : MonoBehaviour
         IEnumerator SwingRoutine()
         {
             swinging = true;
-            rb.AddForce(dir * swingForce, ForceMode.VelocityChange);
-            rb.AddForce(Vector3.up * swingForce * 0.5f, ForceMode.VelocityChange);
+            //rb.AddForce(dir * swingForce, ForceMode.VelocityChange);
+            //rb.AddForce(Vector3.up * swingForce * 0.5f, ForceMode.VelocityChange);
             //armRb.AddForce(dir * swingForce, ForceMode.VelocityChange);
 
             for (int i = 0; i < 5; i++)
