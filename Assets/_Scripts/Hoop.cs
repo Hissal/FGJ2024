@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Hoop : MonoBehaviour
 {
+    float forceMagnitude = 500f;
     System.Random random = new System.Random();
     // Start is called before the first frame update
     void Start()
@@ -11,12 +12,13 @@ public class Hoop : MonoBehaviour
         Rigidbody rb = GetComponent<Rigidbody>();
         if (rb != null)
         {
-            // float randomX = (float)random.NextDouble() * 2 - 1; // Random float between -1 and 1
-            // float randomZ = (float)random.NextDouble() * 2 - 1; // Random float between -1 and 1
-            // Vector3 forceDirection = new Vector3(randomX, 0, randomZ);
-            // float forceMagnitude = 1500f;
-            // rb.AddForce(forceDirection * forceMagnitude);
-            // Debug.Log("Added force to the hoop!");
+            float randomFloatX = 0.3f + (float)random.NextDouble() * 0.7f;
+            randomFloatX *= Mathf.Pow(-1, random.Next(2)); // Randomly positive or negative
+            float randomFloatZ = 0.3f + (float)random.NextDouble() * 0.7f;
+            randomFloatZ *= Mathf.Pow(-1, random.Next(2)); // Randomly positive or negative
+            Vector3 forceDirection = new Vector3(randomFloatX, 0, randomFloatZ);
+            rb.AddForce(forceDirection * forceMagnitude);
+            Debug.Log("Added force to the hoop!");
         }
     }
     // Update is called once per frame

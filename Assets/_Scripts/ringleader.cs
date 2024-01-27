@@ -41,7 +41,6 @@ public class Ringleader : MonoBehaviour
         Debug.Log("Ring of Fire");
         // Get a random player
         ringOfFirePlayer = gameManager.PlayerList[random.Next(0, gameManager.PlayerList.Count)];
-        Debug.Log(ringOfFirePlayer);
         print("PlayerAmount" + gameManager.PlayerList.Count);
         float distanceBetweenHoops = 15f; // Distance between each hoop
         Vector3 startPosition = transform.position; // Start position for the first hoop

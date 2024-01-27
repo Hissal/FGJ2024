@@ -51,7 +51,6 @@ public class GameManager : MonoBehaviour
                 playerScores[player] = 0;
             }
         playerScores[player] += amount;
-        Debug.Log(GetPlayerScore(player));
     }
 
     // Add a method to get a player's score
