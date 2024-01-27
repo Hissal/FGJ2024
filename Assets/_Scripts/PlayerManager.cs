@@ -19,7 +19,7 @@ public class PlayerManager : MonoBehaviour
     void AddPlayer(PlayerInput player)
     {
         players.Add(player);
-
+        GameManager.Instance.AddPlayer(player.transform);
         player.transform.position = spawnPoints[players.Count - 1].position;
     }
 

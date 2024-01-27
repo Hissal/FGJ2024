@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IHittable
 {
-    void Hit(Vector3 dir, float force);
+    void Hit(Vector3 velocity, float forceMultiplier);
 }
