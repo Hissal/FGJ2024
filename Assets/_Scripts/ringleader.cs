@@ -47,7 +47,7 @@ public class Ringleader : MonoBehaviour
         Vector3 startPosition = transform.position; // Start position for the first hoop
 
         // Instantiate the hoops at the start position and 15 units to the right and left
-        var hoop1 = Instantiate(hoopPrefab,
+         var hoop1 = Instantiate(hoopPrefab,
          startPosition, Quaternion.identity, transform);
         hoops = new List<GameObject> { hoop1 };
 
@@ -66,59 +66,50 @@ public class Ringleader : MonoBehaviour
     }
     public void DetachHoops()
     {
-        foreach (GameObject hoop in hoops)
+    foreach (GameObject hoop in hoops)
+    {
+        // Get the Rigidbody component
+        Rigidbody rb = hoop.GetComponent<Rigidbody>();
+
+        // If the Rigidbody component exists
+        if (rb != null)
         {
+            // Enable gravity
+            rb.useGravity = true;
+
+            // Disable kinematic
+            rb.isKinematic = false;
+        }
+
+        // Create a queue to hold the GameObject and all its children
+        Queue<Transform> queue = new Queue<Transform>();
+        queue.Enqueue(hoop.transform);
+
+        // While there are still GameObjects in the queue
+        while (queue.Count > 0)
+        {
+            // Dequeue a GameObject
+            Transform current = queue.Dequeue();
+
             // Get the Rigidbody component
-            Rigidbody rb = hoop.GetComponent<Rigidbody>();
+            Rigidbody currentRb = current.GetComponent<Rigidbody>();
 
             // If the Rigidbody component exists
-            if (rb != null)
+            if (currentRb != null)
             {
-                // Apply an upward force
-                rb.AddForce(Vector3.up * 10, ForceMode.Impulse);
+                // Enable gravity
+                currentRb.useGravity = true;
 
-                // Set isKinematic to false
-                rb.isKinematic = false;
-
-                // Disable gravity
-                rb.useGravity = false;
+                // Disable kinematic
+                currentRb.isKinematic = false;
             }
 
-            // Create a queue to hold the GameObject and all its children
-            Queue<Transform> queue = new Queue<Transform>();
-            queue.Enqueue(hoop.transform);
-
-            // While there are still GameObjects in the queue
-            while (queue.Count > 0)
+            // Enqueue all children of the current GameObject
+            foreach (Transform child in current)
             {
-                // Dequeue a GameObject
-                Transform current = queue.Dequeue();
-
-                // Get the Rigidbody component
-                Rigidbody currentRb = current.GetComponent<Rigidbody>();
-
-                // If the Rigidbody component exists
-                if (currentRb != null)
-                {
-                    // Apply an upward force
-                    currentRb.AddForce(Vector3.up * 2, ForceMode.Impulse);
-
-                    // Set isKinematic to false
-                    currentRb.isKinematic = false;
-
-                    // Disable gravity
-                    currentRb.useGravity = false;
-                }
-
-                // Enqueue all children of the current GameObject
-                foreach (Transform child in current)
-                {
-                    queue.Enqueue(child);
-                }
+                queue.Enqueue(child);
             }
-
-            // Delete the hoop after 10 seconds
-            Destroy(hoop, 10f);
         }
     }
+}
 }
