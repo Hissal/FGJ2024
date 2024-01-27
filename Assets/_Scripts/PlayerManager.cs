@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -15,7 +16,6 @@ public class PlayerManager : MonoBehaviour
     {
         playerInputManager = GetComponent<PlayerInputManager>();
     }
-
     void AddPlayer(PlayerInput player)
     {
         players.Add(player);
