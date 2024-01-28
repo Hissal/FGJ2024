@@ -67,6 +67,8 @@ public class PlayerController : MonoBehaviour, IHittable
 
     private void FixedUpdate()
     {
+        if (transform.position.y < -3f) transform.position = new Vector3(0, 5, 0);
+
         if (stunned) 
         {
             rb.velocity = new Vector3(rb.velocity.x * 0.95f, rb.velocity.y, 0);
