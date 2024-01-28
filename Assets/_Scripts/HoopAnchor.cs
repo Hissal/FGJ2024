@@ -26,15 +26,40 @@ public class HoopAnchor : MonoBehaviour
         return tryingPlayer;
     }
 
-    public void DetachHoop()
+public void DetachHoop()
+{
+    Debug.Log("Detaching hoop!");
+    // Assign the hoop to the "DetachedHoop" layer
+    Transform hoopChild = transform.Find("Hoop");
+    hoopChild.gameObject.layer = LayerMask.NameToLayer("DetachedHoop");
+
+    transform.parent = null;
+    Rigidbody rb = GetComponent<Rigidbody>();
+    if (rb != null)
     {
-        Debug.Log("Detaching hoop!");
-        transform.parent = null;
-        Rigidbody rb = GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.isKinematic = false;
-            rb.useGravity = true;
-        }
+        rb.isKinematic = false;
+        rb.useGravity = true;
     }
+
+    // Find the nested bone child
+    Transform boneChild = transform.Find("Chain (1)/Armature/Bone.012/Bone.011");
+    if (boneChild != null)
+    {
+        // Get the Rigidbody component of the bone child
+        Rigidbody boneRb = boneChild.GetComponent<Rigidbody>();
+        if (boneRb != null)
+        {
+            // Set the bone child to kinematic
+            boneRb.isKinematic = true;
+        }
+
+        // Raise the Y height of the bone child by 30
+        boneChild.position = new Vector3(boneChild.position.x, boneChild.position.y + 2, boneChild.position.z);
+    }
+    else
+    {
+        Debug.LogError("Bone child not found");
+    }
+    Destroy(gameObject, 1f);
+}
 }
