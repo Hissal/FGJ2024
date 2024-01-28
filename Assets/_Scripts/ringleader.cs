@@ -44,15 +44,19 @@ public class Ringleader : MonoBehaviour
 
     }
 
-    private List<GameObject> hoops;
+    public List<GameObject> hoops;
     public void RingOfFire()
     {
+        if (hoops.Count > 4)
+        {
+            return;
+        }
         Debug.Log("Ring of Fire");
         Vector3 startPosition = transform.position; // Start position for the first hoop
         // Instantiate the hoops at the start position and 15 units to the right and left
          var hoop1 = Instantiate(hoopPrefab,
          new Vector3(0, 10f, -21.2f), Quaternion.Euler(40, 0, 0), transform);
-        hoops = new List<GameObject> { hoop1 };
+        hoops.Add(hoop1);
 
         // Child 1 is the hoop, 0 is chain
     }   
