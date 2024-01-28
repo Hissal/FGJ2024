@@ -47,6 +47,7 @@ public class Ringleader : MonoBehaviour
     public void StopRings()
     {
         StopCoroutine(rings);
+        print("StopRings");
         DetachHoops();
     }
     private IEnumerator<object> InvokeRandomEvent()
@@ -60,19 +61,6 @@ public class Ringleader : MonoBehaviour
             yield return new WaitForSeconds(UnityEngine.Random.Range(4f, 8f));
         }
     }
-
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            StopRings();
-        }
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            StartRings();
-        }
-    }
-
     public List<GameObject> hoops;
     public int hoopCount = 0;
 
@@ -105,13 +93,9 @@ public class Ringleader : MonoBehaviour
     }
     public void DetachHoops()
     {
-        foreach (var hoop in hoops)
+        foreach (GameObject hoop in hoops)
         {
-            var hoopAnchor = hoop.GetComponentInParent<HoopAnchor>();
-            if (hoopAnchor != null)
-            {
-                hoopAnchor.DetachHoop();
-            }
+            Destroy(hoop);
         }
         hoops.Clear();
         hoopCount = 0;

@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     {
         if (ringleader != null)
         {
-            ringleader.StartRings();
+            Ringleader.Instance.StartRings();
         }
     }
 
@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour
     {
         if (ringleader != null)
         {
-            ringleader.StopRings();
+            Ringleader.Instance.StopRings();
         }
     }
 
