@@ -8,26 +8,17 @@ public class HoopAnchor : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        ringleader = transform.parent.GetComponent<Ringleader>();
     }
-
     // Update is called once per frame
     void Update()
     {
         
     }
-    public void StorePlayer(Transform player)
-    {
-        Debug.Log("Storing player!");
-        tryingPlayer = player;
-    }
-    public Transform GetTryingPlayer()
-    {
-        return tryingPlayer;
-    }
 
     public void DetachHoop()
     {
+        ringleader.hoopCount -= 1;
         Debug.Log("Detaching hoop!");
         // Assign the hoop to the "DetachedHoop" layer
         Transform hoopChild = transform.Find("Hoop");
@@ -61,6 +52,7 @@ public class HoopAnchor : MonoBehaviour
             Debug.LogError("Bone child not found");
         }
         Destroy(gameObject, 1f);
+
     }
     private IEnumerator SetLayerAfterDelay(GameObject obj, string layerName, float delay)
     {

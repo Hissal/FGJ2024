@@ -9,6 +9,8 @@ public class Ringleader : MonoBehaviour
     private System.Random random = new System.Random();
     public Coroutine rings;
     public static Ringleader Instance;
+    public Animator handsAnimator;
+    public Animator faceAnimator;
 
     GameManager gameManager;
 
@@ -73,20 +75,24 @@ public class Ringleader : MonoBehaviour
     }
 
     public List<GameObject> hoops;
+    public int hoopCount = 0;
     public void RingOfFire()
     {
-        print(hoops.Count);
-        if (hoops.Count > 4)
+        print(hoopCount);
+        if (hoopCount >= 4)
         {
             return;
         }
+        hoopCount += 1;
+        handsAnimator.SetTrigger("RingOfFireTrigger");
+        faceAnimator.SetTrigger("RingOfFireTrigger");
         Debug.Log("Ring of Fire");
         Vector3 startPosition = transform.position; // Start position for the first hoop
         // Instantiate the hoops at the start position and 15 units to the right and left
-         var hoop1 = Instantiate(hoopPrefab,
-         new Vector3(0, 10f, -21.2f), Quaternion.Euler(40, 0, 0), transform);
+        var hoop1 = Instantiate(hoopPrefab,
+            new Vector3(0, 10f, -21.2f), Quaternion.Euler(40, 0, 0), transform);
         hoops.Add(hoop1);
-    }   
+    }
 
     private void RandomEvent()
     {
@@ -104,5 +110,6 @@ public class Ringleader : MonoBehaviour
             }
         }
         hoops.Clear();
+        hoopCount = 0;
     }
 }
