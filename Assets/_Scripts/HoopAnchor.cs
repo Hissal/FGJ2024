@@ -26,40 +26,48 @@ public class HoopAnchor : MonoBehaviour
         return tryingPlayer;
     }
 
-public void DetachHoop()
-{
-    Debug.Log("Detaching hoop!");
-    // Assign the hoop to the "DetachedHoop" layer
-    Transform hoopChild = transform.Find("Hoop");
-    hoopChild.gameObject.layer = LayerMask.NameToLayer("DetachedHoop");
-
-    transform.parent = null;
-    Rigidbody rb = GetComponent<Rigidbody>();
-    if (rb != null)
+    public void DetachHoop()
     {
-        rb.isKinematic = false;
-        rb.useGravity = true;
-    }
+        Debug.Log("Detaching hoop!");
+        // Assign the hoop to the "DetachedHoop" layer
+        Transform hoopChild = transform.Find("Hoop");
+        StartCoroutine(SetLayerAfterDelay(hoopChild.gameObject, "DetachedHoop", 0.15f));
 
-    // Find the nested bone child
-    Transform boneChild = transform.Find("Chain (1)/Armature/Bone.012/Bone.011");
-    if (boneChild != null)
-    {
-        // Get the Rigidbody component of the bone child
-        Rigidbody boneRb = boneChild.GetComponent<Rigidbody>();
-        if (boneRb != null)
+        transform.parent = null;
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
         {
-            // Set the bone child to kinematic
-            boneRb.isKinematic = true;
+            rb.isKinematic = false;
+            rb.useGravity = true;
         }
 
-        // Raise the Y height of the bone child by 30
-        boneChild.position = new Vector3(boneChild.position.x, boneChild.position.y + 2, boneChild.position.z);
+        // Find the nested bone child
+        Transform boneChild = transform.Find("Chain (1)/Armature/Bone.012/Bone.011");
+        if (boneChild != null)
+        {
+            // Get the Rigidbody component of the bone child
+            Rigidbody boneRb = boneChild.GetComponent<Rigidbody>();
+            if (boneRb != null)
+            {
+                // Set the bone child to kinematic
+                boneRb.isKinematic = true;
+            }
+
+            // Raise the Y height of the bone child by 30
+            boneChild.position = new Vector3(boneChild.position.x, boneChild.position.y + 2, boneChild.position.z);
+        }
+        else
+        {
+            Debug.LogError("Bone child not found");
+        }
+        Destroy(gameObject, 1f);
     }
-    else
+    private IEnumerator SetLayerAfterDelay(GameObject obj, string layerName, float delay)
     {
-        Debug.LogError("Bone child not found");
+        // Wait for the specified delay
+        yield return new WaitForSeconds(delay);
+
+        // Set the layer
+        obj.layer = LayerMask.NameToLayer(layerName);
     }
-    Destroy(gameObject, 1f);
-}
 }
