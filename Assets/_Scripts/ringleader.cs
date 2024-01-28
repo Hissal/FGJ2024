@@ -75,6 +75,7 @@ public class Ringleader : MonoBehaviour
     public List<GameObject> hoops;
     public void RingOfFire()
     {
+        print(hoops.Count);
         if (hoops.Count > 4)
         {
             return;
