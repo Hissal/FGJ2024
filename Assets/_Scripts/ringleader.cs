@@ -8,6 +8,7 @@ public class Ringleader : MonoBehaviour
     public GameObject hoopPrefab;
     private System.Random random = new System.Random();
     public Coroutine rings;
+    public static Ringleader Instance;
 
     GameManager gameManager;
 
@@ -15,7 +16,18 @@ public class Ringleader : MonoBehaviour
     {
         "ring_of_fire"
     };
-
+    void Awake()
+        {
+            if (Instance == null)
+            {
+                Instance = this;
+                DontDestroyOnLoad(gameObject);
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
+        }
     void Start()
     {
         gameManager = GameManager.Instance;

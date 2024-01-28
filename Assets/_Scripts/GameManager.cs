@@ -6,7 +6,22 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public List<Transform> PlayerList { get; private set;} = new List<Transform>();
     public GameObject PlayerPrefab;
+    public Ringleader ringleader;
+    public void StartRings()
+    {
+        if (ringleader != null)
+        {
+            ringleader.StartRings();
+        }
+    }
 
+    public void StopRings()
+    {
+        if (ringleader != null)
+        {
+            ringleader.StopRings();
+        }
+    }
     // Add a dictionary to keep track of players' scores
     private Dictionary<Transform, int> playerScores = new Dictionary<Transform, int>();
     void Awake()
@@ -31,9 +46,16 @@ public class GameManager : MonoBehaviour
         playerColors[player] = color;
     }
     
-    void Start()
+    void Update()
     {
-        
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            StopRings();
+        }
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            StartRings();
+        }
     }
     public void AddPlayer(Transform newPlayer)
     {
