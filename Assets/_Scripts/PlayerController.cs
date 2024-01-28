@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour, IHittable
     [SerializeField] float punchStunDuration = 0.15f;
     [SerializeField] float punchCooldown = 0.25f;
     [SerializeField] float rotationSpeed = 0.6f;
-    [SerializeField] float maxVelocity = 100;
+    [SerializeField] float maxVelocity = 50f;
 
     InputActionAsset inputAsset;
     InputActionMap player;
@@ -35,6 +35,8 @@ public class PlayerController : MonoBehaviour, IHittable
 
     [SerializeField] GameObject hat;
 
+    bool ready = false;
+
     private void Awake()
     {
         inputAsset = GetComponent<PlayerInput>().actions;
@@ -47,6 +49,18 @@ public class PlayerController : MonoBehaviour, IHittable
         //rend.material.color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
         rend.material.color = UnityEngine.Random.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f);
         GameManager.Instance.SetPlayerColor(transform, rend.material.color);
+
+        GameManager.Instance.PlayerReady(this.transform, false);
+    }
+
+    void Ready(InputAction.CallbackContext ctx)
+    {
+        ready = !ready;
+
+        if (ready) GameManager.Instance.PlayerReady(transform, true);
+        else if (ready == false) GameManager.Instance.PlayerReady(transform, false);
+
+        print(ready);
     }
 
     void Jump(InputAction.CallbackContext ctx)
@@ -165,6 +179,7 @@ public class PlayerController : MonoBehaviour, IHittable
 
         player.FindAction("Jump").started += Jump;
         player.FindAction("Punch").started += Punch;
+        player.FindAction("Ready").started += Ready;
         move = player.FindAction("MoveAxis");
         player.Enable();
     }
@@ -173,6 +188,7 @@ public class PlayerController : MonoBehaviour, IHittable
     {
         player.FindAction("Jump").started -= Jump;
         player.FindAction("Punch").started -= Punch;
+        player.FindAction("Ready").started -= Ready;
         player.Disable();
     }
 }

@@ -1,4 +1,6 @@
+using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -6,7 +8,12 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
     public List<Transform> PlayerList { get; private set;} = new List<Transform>();
     public GameObject PlayerPrefab;
-    public Ringleader ringleader;
+    private Ringleader ringleader;
+
+    [SerializeField] List<GameObject> readyIconList = new List<GameObject>();
+
+    [SerializeField] TextMeshProUGUI countDownText;
+    [SerializeField] GameObject joinObj;
     public void StartRings()
     {
         if (ringleader != null)
@@ -22,6 +29,73 @@ public class GameManager : MonoBehaviour
             ringleader.StopRings();
         }
     }
+
+    public void PlayerReady(Transform player, bool ready)
+    {
+        print(player + " " + ready);
+
+        bool everyoneReady = true;
+
+        for (int i = 0; i < PlayerList.Count; i++)
+        {
+            ReadyIconScript readyScript;
+            if (PlayerList[i] == player)
+            {
+                readyScript = readyIconList[i].GetComponent<ReadyIconScript>();
+
+                if (ready) readyScript.Ready();
+                else if (ready == false) readyScript.UnReady();
+            }
+        }
+
+        for (int i = 0; i < PlayerList.Count; i++)
+        {
+            ReadyIconScript readyScript = readyIconList[i].GetComponent<ReadyIconScript>();
+            if (readyScript != null)
+            {
+                if (readyScript.ready == false) everyoneReady = false;
+            }
+        }
+
+        if (everyoneReady) 
+        {
+            //StartGame
+            StartCoroutine(StartCountdown());
+            countDownText.enabled = true;
+        }
+        else if (!everyoneReady)
+        {
+            StopCoroutine(StartCountdown());
+            countDownText.enabled = false;
+        }
+        
+
+        IEnumerator StartCountdown()
+        {
+            int countDown = 6;
+            while (countDown > 0)
+            {
+                countDown--;
+                countDownText.text = countDown.ToString();
+                yield return new WaitForSeconds(1);
+            }
+
+            HideJoinText();
+            countDownText.enabled = false;
+            StartRings();
+        }
+    }
+
+    void HideJoinText()
+    {
+        joinObj.SetActive(false);
+    }
+
+    private void Start()
+    {
+        ringleader = Ringleader.Instance;
+    }
+
     // Add a dictionary to keep track of players' scores
     private Dictionary<Transform, int> playerScores = new Dictionary<Transform, int>();
     void Awake()
@@ -64,6 +138,8 @@ public class GameManager : MonoBehaviour
 
         // Initialize the new player's score to 0
         playerScores[newPlayer] = 0;
+
+        if (PlayerList.Count == 4) HideJoinText();
     }
 
     void RemovePlayer(Transform playerToRemove)
@@ -102,7 +178,4 @@ public class GameManager : MonoBehaviour
 
         return (score, color);
     }
-
-    //TODO SINGLETON
-    //PLAYER CONTROLLER ASSIGNING
 }

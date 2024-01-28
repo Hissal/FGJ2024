@@ -11,10 +11,12 @@ public class FlashingText : MonoBehaviour
 
     TextMeshProUGUI text;
 
-    private void Start()
+    Coroutine flashRoutine;
+
+    private void Awake()
     {
         text = GetComponent<TextMeshProUGUI>();
-        StartCoroutine(TextFlash());
+        flashRoutine = StartCoroutine(TextFlash());
     }
 
     IEnumerator TextFlash()
@@ -36,11 +38,12 @@ public class FlashingText : MonoBehaviour
 
     private void OnEnable()
     {
-        StartCoroutine(TextFlash());
+        StopCoroutine(flashRoutine);
+        flashRoutine = StartCoroutine(TextFlash());
     }
 
     private void OnDisable()
     {
-        StopCoroutine(TextFlash());
+        StopCoroutine(flashRoutine);
     }
 }
