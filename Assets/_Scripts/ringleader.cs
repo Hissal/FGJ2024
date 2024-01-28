@@ -38,7 +38,7 @@ public class Ringleader : MonoBehaviour
             { "ring_of_fire", RingOfFire }
         };
         // Call RandomEvent immediately and then every 5 seconds
-        StartRings();
+        //StartRings();
     }
     public void StartRings()
     {
@@ -58,7 +58,7 @@ public class Ringleader : MonoBehaviour
             RandomEvent();
 
             // Wait for a random amount of time between 4 and 8 seconds
-            yield return new WaitForSeconds(UnityEngine.Random.Range(4f, 8f));
+            yield return new WaitForSeconds(UnityEngine.Random.Range(6f, 12f));
         }
     }
     public List<GameObject> hoops;

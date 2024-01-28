@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] TextMeshProUGUI countDownText;
     [SerializeField] GameObject joinObj;
+
+    Coroutine countdownRoutine;
     public void StartRings()
     {
         if (ringleader != null)
@@ -43,6 +45,8 @@ public class GameManager : MonoBehaviour
             {
                 readyScript = readyIconList[i].GetComponent<ReadyIconScript>();
 
+                readyScript.gameObject.SetActive(true);
+
                 if (ready) readyScript.Ready();
                 else if (ready == false) readyScript.UnReady();
             }
@@ -60,29 +64,32 @@ public class GameManager : MonoBehaviour
         if (everyoneReady) 
         {
             //StartGame
-            StartCoroutine(StartCountdown());
+            countdownRoutine = StartCoroutine(StartCountdown());
             countDownText.enabled = true;
         }
         else if (!everyoneReady)
         {
-            StopCoroutine(StartCountdown());
+            if (countdownRoutine != null) StopCoroutine(countdownRoutine);
             countDownText.enabled = false;
         }
-        
-
-        IEnumerator StartCountdown()
+    }
+    IEnumerator StartCountdown()
+    {
+        int countDown = 6;
+        while (countDown > 0)
         {
-            int countDown = 6;
-            while (countDown > 0)
-            {
-                countDown--;
-                countDownText.text = countDown.ToString();
-                yield return new WaitForSeconds(1);
-            }
+            countDown--;
+            countDownText.text = countDown.ToString();
+            yield return new WaitForSeconds(1);
+        }
 
-            HideJoinText();
-            countDownText.enabled = false;
-            StartRings();
+        HideJoinText();
+        countDownText.enabled = false;
+        StartRings();
+
+        foreach (GameObject obj in readyIconList)
+        {
+            obj.SetActive(false);
         }
     }
 
@@ -122,14 +129,14 @@ public class GameManager : MonoBehaviour
     
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            StopRings();
-        }
-        if (Input.GetKeyDown(KeyCode.T))
-        {
-            StartRings();
-        }
+        //if (Input.GetKeyDown(KeyCode.R))
+        //{
+        //    StopRings();
+        //}
+        //if (Input.GetKeyDown(KeyCode.T))
+        //{
+        //    StartRings();
+        //}
     }
     public void AddPlayer(Transform newPlayer)
     {

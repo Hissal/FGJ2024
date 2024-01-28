@@ -56,10 +56,7 @@ public class PlayerController : MonoBehaviour, IHittable
     void Ready(InputAction.CallbackContext ctx)
     {
         ready = !ready;
-
-        if (ready) GameManager.Instance.PlayerReady(transform, true);
-        else if (ready == false) GameManager.Instance.PlayerReady(transform, false);
-
+        GameManager.Instance.PlayerReady(transform, ready);
         print(ready);
     }
 

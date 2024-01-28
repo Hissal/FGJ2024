@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class ReadyIconScript : MonoBehaviour
 {
-    [SerializeField] List<GameObject> objectsToToggle;
+    [SerializeField] GameObject objectToToggleOff;
+    [SerializeField] GameObject objectToToggleOn;
     public bool ready = false;
 
     public void Ready()
     {
-        foreach (GameObject obj in objectsToToggle)
-        {
-            obj.SetActive(false);
-        }
+
+        objectToToggleOff.SetActive(false);
+        objectToToggleOn.SetActive(true);
+
         ready = true;
         print("READYSCRIPT READY");
     }
 
     public void UnReady()
     {
-        foreach (GameObject obj in objectsToToggle)
-        {
-            obj.SetActive(true);
-        }
+        objectToToggleOff.SetActive(true);
+        objectToToggleOn.SetActive(false);
+
         ready = false;
         print("READYSCRIPT UNREADY");
     }
