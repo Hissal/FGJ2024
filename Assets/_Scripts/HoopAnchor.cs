@@ -28,16 +28,13 @@ public class HoopAnchor : MonoBehaviour
 
     public void DetachHoop()
     {
-        // Get a reference to the RingLeader script in the parent object
-        Debug.Log(transform.parent);
-        Ringleader ringLeader = transform.parent.GetComponent<Ringleader>();
-
-        // If the RingLeader script exists
-        if (ringLeader != null)
+        Debug.Log("Detaching hoop!");
+        transform.parent = null;
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
         {
-            // Call the DetachHoops method
-            ringLeader.DetachHoops();
+            rb.isKinematic = false;
+            rb.useGravity = true;
         }
-        FixedJoint joint = GetComponent<FixedJoint>();
     }
 }
