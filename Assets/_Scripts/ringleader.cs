@@ -24,7 +24,19 @@ public class Ringleader : MonoBehaviour
             { "ring_of_fire", RingOfFire }
         };
         // Call RandomEvent immediately and then every 5 seconds
-        InvokeRepeating("RandomEvent", 0f, 8f);
+        StartCoroutine(InvokeRandomEvent());
+    }
+
+    private IEnumerator<object> InvokeRandomEvent()
+    {
+        while (true)
+        {
+            // Call RandomEvent
+            RandomEvent();
+
+            // Wait for a random amount of time between 3 and 8 seconds
+            yield return new WaitForSeconds(UnityEngine.Random.Range(4f, 8f));
+        }
     }
 
     void Update()
