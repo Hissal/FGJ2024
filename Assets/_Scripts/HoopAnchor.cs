@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class HoopAnchor : MonoBehaviour
 {
-    private Transform tryingPlayer;
+    
     // Start is called before the first frame update
     void Start()
     {
-        ringleader = transform.parent.GetComponent<Ringleader>();
+
     }
     // Update is called once per frame
     void Update()
@@ -18,7 +18,7 @@ public class HoopAnchor : MonoBehaviour
 
     public void DetachHoop()
     {
-        ringleader.hoopCount -= 1;
+        Ringleader.Instance.ReduceHoopCount();
         Debug.Log("Detaching hoop!");
         // Assign the hoop to the "DetachedHoop" layer
         Transform hoopChild = transform.Find("Hoop");

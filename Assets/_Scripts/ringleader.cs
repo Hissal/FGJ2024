@@ -11,7 +11,6 @@ public class Ringleader : MonoBehaviour
     public static Ringleader Instance;
     public Animator handsAnimator;
     public Animator faceAnimator;
-
     GameManager gameManager;
 
     private readonly List<string> events = new List<string>
@@ -76,6 +75,11 @@ public class Ringleader : MonoBehaviour
 
     public List<GameObject> hoops;
     public int hoopCount = 0;
+
+    public void ReduceHoopCount()
+    {
+        hoopCount -= 1;
+    }
     public void RingOfFire()
     {
         print(hoopCount);
