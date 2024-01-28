@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Collections;
 
 public class Ringleader : MonoBehaviour
 {
@@ -12,6 +13,11 @@ public class Ringleader : MonoBehaviour
     public Animator handsAnimator;
     public Animator faceAnimator;
     GameManager gameManager;
+
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip ringSpawnedAudio;
+    [SerializeField] float ringSpawnDelay = 1.2f;
+    [SerializeField] AudioSource laughSource;
 
     private readonly List<string> events = new List<string>
     {
@@ -43,6 +49,7 @@ public class Ringleader : MonoBehaviour
     public void StartRings()
     {
         rings = StartCoroutine(InvokeRandomEvent());
+        laughSource.Play();
     }
     public void StopRings()
     {
@@ -75,15 +82,27 @@ public class Ringleader : MonoBehaviour
         {
             return;
         }
-        hoopCount += 1;
-        handsAnimator.SetTrigger("RingOfFireTrigger");
-        faceAnimator.SetTrigger("RingOfFireTrigger");
-        Debug.Log("Ring of Fire");
-        Vector3 startPosition = transform.position; // Start position for the first hoop
-        // Instantiate the hoops at the start position and 15 units to the right and left
-        var hoop1 = Instantiate(hoopPrefab,
-            new Vector3(0, 10f, -21.2f), Quaternion.Euler(40, 0, 0), transform);
-        hoops.Add(hoop1);
+
+        StartCoroutine(RingSpawnRoutine());
+
+        IEnumerator RingSpawnRoutine()
+        {
+            handsAnimator.SetTrigger("RingOfFireTrigger");
+            faceAnimator.SetTrigger("RingOfFireTrigger");
+
+            yield return new WaitForSeconds(ringSpawnDelay);
+
+            hoopCount++;
+
+            Debug.Log("Ring of Fire");
+            Vector3 startPosition = transform.position; // Start position for the first hoop
+                                                        // Instantiate the hoops at the start position and 15 units to the right and left
+            var hoop1 = Instantiate(hoopPrefab,
+                new Vector3(0, 10f, -21.2f), Quaternion.Euler(40, 0, 0), transform);
+            hoops.Add(hoop1);
+
+            audioSource.PlayOneShot(ringSpawnedAudio);
+        }
     }
 
     private void RandomEvent()

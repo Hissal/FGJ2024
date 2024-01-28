@@ -16,6 +16,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject joinObj;
 
     Coroutine countdownRoutine;
+
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip pointsSound;
+    [SerializeField] AudioClip addedPlayerSound;
+
     public void StartRings()
     {
         if (ringleader != null)
@@ -142,6 +147,7 @@ public class GameManager : MonoBehaviour
     {
         PlayerList.Add(newPlayer);
         Debug.Log("Added player!");
+        audioSource.PlayOneShot(addedPlayerSound);
 
         // Initialize the new player's score to 0
         playerScores[newPlayer] = 0;
@@ -165,6 +171,8 @@ public class GameManager : MonoBehaviour
             playerScores[player] = 0;
         }
         playerScores[player] += amount;
+        //PLAYPOINT SOUND
+        audioSource.PlayOneShot(pointsSound);
     }
 
     // Modify the GetPlayerScore method to also return the player's color

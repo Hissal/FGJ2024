@@ -35,6 +35,10 @@ public class PlayerController : MonoBehaviour, IHittable
 
     [SerializeField] GameObject hat;
 
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip hitSound1;
+    [SerializeField] AudioClip hitSound2;
+
     bool ready = false;
 
     private void Awake()
@@ -123,6 +127,21 @@ public class PlayerController : MonoBehaviour, IHittable
         rb.AddForce(velocityOfHit * forceMultiplier, ForceMode.Impulse);
         Stun(punchStunDuration);
         print("Hit");
+
+        int rng = Random.Range(0, 2);
+
+        switch (rng)
+        {
+            case 0:
+                audioSource.PlayOneShot(hitSound1);
+                break;
+
+            case 1:
+                audioSource.PlayOneShot(hitSound2);
+                break;
+            default:
+                break;
+        }
     }
 
     void Punch(InputAction.CallbackContext ctx)
