@@ -8,7 +8,7 @@ public class PlayerController : MonoBehaviour, IHittable
     Rigidbody rb;
 
     [SerializeField] float movementSpeed = 15f;
-    [SerializeField] float jumpStrength = 100f;
+    [SerializeField] float jumpStrength = 200f;
     [SerializeField] float punchForce = 5f;
     [SerializeField] float punchForceMultiplier = 15f;
     [SerializeField] float punchStunDuration = 0.15f;
