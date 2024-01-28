@@ -44,7 +44,7 @@ public class Ringleader : MonoBehaviour
 
     }
 
-    private List<GameObject> hoops;
+    public List<GameObject> hoops;
     public void RingOfFire()
     {
         Debug.Log("Ring of Fire");
